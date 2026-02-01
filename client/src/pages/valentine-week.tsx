@@ -321,24 +321,19 @@ function useThemeVars(theme: DayTheme) {
 }
 
 export default function ValentineWeekPage() {
-  const [activeDay, setActiveDay] = useState(1);
+  const [activeDay, setActiveDay] = useState<number | null>(null);
   const unlocked = useMemo(() => getUnlockedCount(new Date()), []);
 
-  const safeActive = Math.min(Math.max(activeDay, 1), Math.max(unlocked, 1));
-  const day = DAYS[safeActive - 1];
+  const day = activeDay ? DAYS[activeDay - 1] : null;
 
-  useThemeVars(day.theme);
+  useThemeVars(day?.theme || DAYS[0].theme);
 
   const isBeforeWeek = unlocked === 0;
-
-  useEffect(() => {
-    if (unlocked > 0) setActiveDay(unlocked);
-  }, [unlocked]);
 
   return (
     <div className="relative min-h-[100svh]">
       <div className="bg-dream noise" />
-      <FloatingThings mode={day.theme.floatMode} />
+      <FloatingThings mode={day?.theme.floatMode || "petals"} />
 
       <div className="mx-auto flex min-h-[100svh] max-w-5xl flex-col items-center justify-center px-4 py-10">
         <div className="w-full">
@@ -366,172 +361,155 @@ export default function ValentineWeekPage() {
             </p>
           </header>
 
-          <div className="grid gap-4 md:grid-cols-[1.05fr_0.95fr]">
-            <motion.section
-              layout
-              className="day-card glass glow soft-border relative overflow-hidden p-5 sm:p-6"
-            >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={safeActive}
-                  initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, y: -10, filter: "blur(6px)" }}
-                  transition={{ duration: 0.45, ease: "easeOut" }}
+          <AnimatePresence mode="wait">
+            {!activeDay ? (
+              <motion.section
+                key="grid"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="day-card glass soft-border relative overflow-hidden p-6 sm:p-8"
+              >
+                <div className="mb-6 flex items-center justify-between">
+                  <div>
+                    <div data-testid="text-nav-title" className="text-xs font-semibold text-foreground/60">
+                      Collection
+                    </div>
+                    <div data-testid="text-nav-sub" className="text-xl font-semibold text-foreground/80">
+                      Tap a day to reveal its story
+                    </div>
+                  </div>
+                  <div data-testid="text-unlocked" className="text-xs font-semibold text-foreground/60">
+                    Progress: {unlocked}/7
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                  {DAYS.map((d) => {
+                    const isUnlocked = unlocked >= d.index;
+
+                    return (
+                      <button
+                        key={d.index}
+                        type="button"
+                        data-testid={`button-day-${d.index}`}
+                        onClick={() => {
+                          if (!isUnlocked) return;
+                          setActiveDay(d.index);
+                        }}
+                        className={cn(
+                          "day-card relative aspect-square overflow-hidden rounded-3xl p-5 text-left transition",
+                          "soft-border bg-white/50 hover:bg-white/70 active:scale-[0.98]",
+                          !isUnlocked && "cursor-not-allowed",
+                        )}
+                        aria-disabled={!isUnlocked}
+                      >
+                        <div className={cn(!isUnlocked && "locked", "h-full flex flex-col justify-between")}
+                          data-testid={`card-day-${d.index}`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="text-xs font-semibold text-foreground/70">
+                              Day {d.index}
+                            </div>
+                            <div className="text-xl">{d.emoji}</div>
+                          </div>
+                          <div>
+                            <div className="text-base font-semibold text-foreground/85">
+                              {d.title}
+                            </div>
+                            <div className="text-[11px] font-semibold text-foreground/60">Feb {d.date.day}</div>
+                          </div>
+                        </div>
+
+                        {!isUnlocked ? (
+                          <div className="absolute inset-0 flex items-center justify-center bg-white/5 backdrop-blur-[2px]">
+                            <div
+                              data-testid={`status-locked-${d.index}`}
+                              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/80 shadow-sm soft-border"
+                            >
+                              <Lock className="h-5 w-5 text-foreground/50" />
+                            </div>
+                          </div>
+                        ) : null}
+                      </button>
+                    );
+                  })}
+                </div>
+              </motion.section>
+            ) : (
+              <motion.section
+                key="detail"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                className="day-card glass glow soft-border relative overflow-hidden p-6 sm:p-10"
+              >
+                <button
+                  onClick={() => setActiveDay(null)}
+                  className="mb-6 flex items-center gap-2 text-sm font-semibold text-foreground/60 transition hover:text-foreground"
                 >
-                  {isBeforeWeek ? (
-                    <div className="text-center">
+                  ← Back to collection
+                </button>
+
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3">
                       <div
-                        data-testid="text-beforeweek-title"
-                        className="text-display text-3xl"
+                        data-testid={`text-day-title-${day!.index}`}
+                        className="text-display text-4xl tracking-tight"
                       >
-                        Not yet…
-                      </div>
-                      <p
-                        data-testid="text-beforeweek-sub"
-                        className="mt-2 text-sm text-foreground/70"
-                      >
-                        Valentine Week begins on Feb 7. When it starts, the first card will open
-                        automatically.
-                      </p>
-                      <div className="mx-auto mt-5 flex w-fit items-center gap-2 rounded-full bg-white/50 px-4 py-2 text-xs font-semibold text-foreground/70">
-                        <Lock className="h-4 w-4" />
-                        Unlocks soon 💭
+                        Day {day!.index} — {day!.title} {day!.emoji}
                       </div>
                     </div>
-                  ) : (
-                    <>
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <div
-                            data-testid={`text-day-title-${day.index}`}
-                            className="text-display text-3xl tracking-tight"
-                          >
-                            Day {day.index} — {day.title} {day.emoji}
-                          </div>
-                          <div
-                            data-testid={`text-day-date-${day.index}`}
-                            className="mt-1 text-xs font-semibold text-foreground/60"
-                          >
-                            Feb {day.date.day}
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-full bg-white/55 px-3 py-1 text-xs font-semibold text-foreground/70">
-                          <Sparkles className="h-4 w-4" />
-                          Unlocked
-                        </div>
-                      </div>
-
-                      <div className="mt-4 space-y-2">
-                        {day.message.map((line, i) => (
-                          <p
-                            key={i}
-                            data-testid={`text-day-line-${day.index}-${i}`}
-                            className="text-sm leading-relaxed text-foreground/75"
-                          >
-                            {line}
-                          </p>
-                        ))}
-                      </div>
-
-                      <DayVisual kind={day.visual.kind} />
-
-                      {day.index === 7 ? (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.15 }}
-                          className="mt-6 rounded-2xl bg-white/55 p-4 soft-border"
-                          data-testid="card-final"
-                        >
-                          <div className="text-xs font-semibold text-foreground/70">A final note</div>
-                          <div className="mt-2 text-sm leading-relaxed text-foreground/75">
-                            If this made you feel even a little cared for, I’m happy. And if not,
-                            that’s okay too. I just wanted to show up with something gentle.
-                          </div>
-                        </motion.div>
-                      ) : null}
-                    </>
-                  )}
-                </motion.div>
-              </AnimatePresence>
-            </motion.section>
-
-            <section className="day-card glass soft-border relative overflow-hidden p-4 sm:p-5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div data-testid="text-nav-title" className="text-xs font-semibold text-foreground/60">
-                    Days
-                  </div>
-                  <div data-testid="text-nav-sub" className="text-sm font-semibold text-foreground/80">
-                    Tap a day to open
-                  </div>
-                </div>
-                <div data-testid="text-unlocked" className="text-xs font-semibold text-foreground/60">
-                  Unlocked: {unlocked}/7
-                </div>
-              </div>
-
-              <div className="mt-3 grid grid-cols-2 gap-3">
-                {DAYS.map((d) => {
-                  const isUnlocked = unlocked >= d.index;
-                  const isActive = safeActive === d.index && unlocked > 0;
-
-                  return (
-                    <button
-                      key={d.index}
-                      type="button"
-                      data-testid={`button-day-${d.index}`}
-                      onClick={() => {
-                        if (!isUnlocked) return;
-                        setActiveDay(d.index);
-                      }}
-                      className={cn(
-                        "day-card relative overflow-hidden rounded-2xl p-3 text-left transition",
-                        "soft-border bg-white/50 hover:bg-white/60 active:scale-[0.99]",
-                        isActive && "glow",
-                        !isUnlocked && "cursor-not-allowed",
-                      )}
-                      aria-disabled={!isUnlocked}
+                    <div
+                      data-testid={`text-day-date-${day!.index}`}
+                      className="mt-1 text-xs font-semibold text-foreground/60"
                     >
-                      <div className={cn(!isUnlocked && "locked")}
-                        data-testid={`card-day-${d.index}`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="text-xs font-semibold text-foreground/70">
-                            Day {d.index}
-                          </div>
-                          <div className="text-sm">{d.emoji}</div>
-                        </div>
-                        <div className="mt-1 text-sm font-semibold text-foreground/85">
-                          {d.title}
-                        </div>
-                        <div className="mt-1 text-[11px] font-semibold text-foreground/60">Feb {d.date.day}</div>
-                      </div>
+                      Feb {day!.date.day}
+                    </div>
 
-                      {!isUnlocked ? (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div
-                            data-testid={`status-locked-${d.index}`}
-                            className="inline-flex items-center gap-2 rounded-full bg-white/65 px-3 py-1 text-xs font-semibold text-foreground/70 soft-border"
-                          >
-                            <Lock className="h-4 w-4" />
-                            Unlocks soon 💭
-                          </div>
-                        </div>
-                      ) : null}
-                    </button>
-                  );
-                })}
-              </div>
+                    <div className="mt-8 space-y-4">
+                      {day!.message.map((line, i) => (
+                        <p
+                          key={i}
+                          data-testid={`text-day-line-${day!.index}-${i}`}
+                          className="text-lg leading-relaxed text-foreground/75"
+                        >
+                          {line}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
 
-              <div
-                data-testid="text-footer"
-                className="mt-4 text-[11px] leading-relaxed text-foreground/55"
-              >
-                This page uses today’s date to unlock cards automatically.
-              </div>
-            </section>
+                  <div className="flex-shrink-0">
+                    <DayVisual kind={day!.visual.kind} />
+                  </div>
+                </div>
+
+                {day!.index === 7 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="mt-10 rounded-3xl bg-white/55 p-6 soft-border"
+                    data-testid="card-final"
+                  >
+                    <div className="text-sm font-semibold text-foreground/70 uppercase tracking-wider">A final note</div>
+                    <div className="mt-3 text-base leading-relaxed text-foreground/75">
+                      If this made you feel even a little cared for, I’m happy. And if not,
+                      that’s okay too. I just wanted to show up with something gentle.
+                    </div>
+                  </motion.div>
+                )}
+              </motion.section>
+            )}
+          </AnimatePresence>
+
+          <div
+            data-testid="text-footer"
+            className="mt-8 text-center text-xs leading-relaxed text-foreground/50"
+          >
+            Past days stay visible. Future days stay softly locked.
           </div>
         </div>
       </div>
