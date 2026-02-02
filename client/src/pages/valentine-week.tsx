@@ -17,7 +17,7 @@ type Day = {
   date: { month: number; day: number };
   title: string;
   emoji: string;
-  message: string[];
+  messages: string[][];
   theme: DayTheme;
   visual: {
     label: string;
@@ -31,11 +31,25 @@ const DAYS: Day[] = [
     date: { month: 2, day: 7 },
     title: "Rose Day",
     emoji: "🌹",
-    message: [
-      "A rose doesn’t ask to be perfect,",
-      "it just opens—soft and honest.",
-      "Today I’m sending you something simple:",
-      "a quiet hello, and a little warmth.",
+    messages: [
+      [
+        "A rose doesn’t ask to be perfect,",
+        "it just opens—soft and honest.",
+        "Today I’m sending you something simple:",
+        "a quiet hello, and a little warmth.",
+      ],
+      [
+        "Like a rose blooming in the frost,",
+        "some things are beautiful because they last.",
+        "Just a small reminder today:",
+        "you are deeply appreciated.",
+      ],
+      [
+        "Fragrance stays on the hand that gives roses.",
+        "Today, I'm just sending the petals your way.",
+        "No reason needed.",
+        "Just a soft thought for you.",
+      ]
     ],
     theme: {
       tint1: "hsl(332 92% 84% / 0.85)",
@@ -52,11 +66,25 @@ const DAYS: Day[] = [
     date: { month: 2, day: 8 },
     title: "Propose Day",
     emoji: "💍",
-    message: [
-      "Not a big question.",
-      "Just a gentle one:",
-      "can I keep choosing you—",
-      "in small ways, every day?",
+    messages: [
+      [
+        "Not a big question.",
+        "Just a gentle one:",
+        "can I keep choosing you—",
+        "in small ways, every day?",
+      ],
+      [
+        "I'm not asking for forever yet.",
+        "I'm just asking for right now.",
+        "To let me be the one who listens,",
+        "and the one who stays.",
+      ],
+      [
+        "Life is full of noise.",
+        "In the middle of it all,",
+        "I'm proposing a little silence with you.",
+        "Just us, being exactly who we are.",
+      ]
     ],
     theme: {
       tint1: "hsl(332 95% 88% / 0.75)",
@@ -73,11 +101,25 @@ const DAYS: Day[] = [
     date: { month: 2, day: 9 },
     title: "Chocolate Day",
     emoji: "🍫",
-    message: [
-      "Some sweetness belongs to moments,",
-      "not just chocolate.",
-      "If today feels heavy,",
-      "I hope this brings a light little smile.",
+    messages: [
+      [
+        "Some sweetness belongs to moments,",
+        "not just chocolate.",
+        "If today feels heavy,",
+        "I hope this brings a light little smile.",
+      ],
+      [
+        "A little bit of sweetness,",
+        "to balance out the day.",
+        "Think of this as a virtual treat,",
+        "made specifically to make you grin.",
+      ],
+      [
+        "Life is like a box of chocolates,",
+        "but I already know which one is my favorite.",
+        "It's the one that matches your smile.",
+        "Stay sweet today.",
+      ]
     ],
     theme: {
       tint1: "hsl(28 92% 86% / 0.75)",
@@ -94,11 +136,25 @@ const DAYS: Day[] = [
     date: { month: 2, day: 10 },
     title: "Teddy Day",
     emoji: "🧸",
-    message: [
-      "If you could use a softer day,",
-      "pretend this is a warm, friendly hug.",
-      "No pressure.",
-      "Just comfort, from me to you.",
+    messages: [
+      [
+        "If you could use a softer day,",
+        "pretend this is a warm, friendly hug.",
+        "No pressure.",
+        "Just comfort, from me to you.",
+      ],
+      [
+        "Something soft to hold onto,",
+        "even if it's just a thought.",
+        "May your day be as fuzzy",
+        "and kind as a teddy's heart.",
+      ],
+      [
+        "A teddy bear doesn't need words,",
+        "it just needs to be there.",
+        "I'm right here in the background,",
+        "cheering for you silently.",
+      ]
     ],
     theme: {
       tint1: "hsl(35 85% 88% / 0.78)",
@@ -115,11 +171,25 @@ const DAYS: Day[] = [
     date: { month: 2, day: 11 },
     title: "Promise Day",
     emoji: "🤞",
-    message: [
-      "I can’t promise perfect.",
-      "But I can promise honest.",
-      "I’ll be kind with your heart,",
-      "and careful with your name.",
+    messages: [
+      [
+        "I can’t promise perfect.",
+        "But I can promise honest.",
+        "I’ll be kind with your heart,",
+        "and careful with your name.",
+      ],
+      [
+        "A promise isn't a weight,",
+        "it's a foundation.",
+        "I promise to keep showing up,",
+        "exactly as I am, for exactly who you are.",
+      ],
+      [
+        "Small promises matter most.",
+        "I promise to listen when you're quiet,",
+        "and to celebrate when you're loud.",
+        "You can count on that.",
+      ]
     ],
     theme: {
       tint1: "hsl(266 95% 90% / 0.78)",
@@ -136,11 +206,25 @@ const DAYS: Day[] = [
     date: { month: 2, day: 12 },
     title: "Hug Day",
     emoji: "🤍",
-    message: [
-      "Some feelings grow quietly,",
-      "like this one.",
-      "No rush.",
-      "Just something I wanted you to feel today.",
+    messages: [
+      [
+        "Some feelings grow quietly,",
+        "like this one.",
+        "No rush.",
+        "Just something I wanted you to feel today.",
+      ],
+      [
+        "A hug is a handshake from the heart.",
+        "Sending you a warm one across the screen.",
+        "May it make your shoulders drop,",
+        "and your heart feel light.",
+      ],
+      [
+        "Sometimes words are too much.",
+        "A quiet hug says everything needed.",
+        "I'm sending you that peace today.",
+        "Take a deep breath. You're doing great.",
+      ]
     ],
     theme: {
       tint1: "hsl(20 92% 88% / 0.78)",
@@ -157,12 +241,26 @@ const DAYS: Day[] = [
     date: { month: 2, day: 14 },
     title: "Valentine’s Day",
     emoji: "❤️",
-    message: [
-      "If you made it here, thank you.",
-      "I don’t want to rush you, ever.",
-      "I just wanted you to know—",
-      "you’re genuinely special to me.",
-      "No expectations. Just honesty.",
+    messages: [
+      [
+        "If you made it here, thank you.",
+        "I don’t want to rush you, ever.",
+        "I just wanted you to know—",
+        "you’re genuinely special to me.",
+        "No expectations. Just honesty.",
+      ],
+      [
+        "Love is a journey, not a destination.",
+        "I'm glad our paths crossed this week.",
+        "Whatever happens next,",
+        "I'm grateful for these seven days.",
+      ],
+      [
+        "Happy Valentine's Day.",
+        "You deserve all the beauty in the world.",
+        "I hope this week made you feel seen,",
+        "and loved, just as you are.",
+      ]
     ],
     theme: {
       tint1: "hsl(332 96% 84% / 0.75)",
@@ -330,6 +428,11 @@ export default function ValentineWeekPage() {
 
   const day = activeDay ? DAYS[activeDay - 1] : null;
 
+  const randomMessage = useMemo(() => {
+    if (!day) return null;
+    return day.messages[Math.floor(Math.random() * day.messages.length)];
+  }, [day, activeDay]);
+
   useThemeVars(day?.theme || DAYS[0].theme);
 
   const isBeforeWeek = unlocked === 0;
@@ -473,7 +576,7 @@ export default function ValentineWeekPage() {
                     </div>
 
                     <div className="mt-8 space-y-4">
-                      {day!.message.map((line, i) => (
+                      {randomMessage?.map((line, i) => (
                         <p
                           key={i}
                           data-testid={`text-day-line-${day!.index}-${i}`}
