@@ -49,6 +49,12 @@ const DAYS: Day[] = [
         "Today, I'm just sending the petals your way.",
         "No reason needed.",
         "Just a soft thought for you.",
+      ],
+      [
+        "Gentle as a petal, quiet as a bloom,",
+        "I hope this brings a little light into your room.",
+        "You deserve a day as soft as this flower,",
+        "and a heart that feels its quiet power.",
       ]
     ],
     theme: {
