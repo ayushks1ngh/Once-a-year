@@ -262,4 +262,43 @@
   .hero-heart {
     animation: pulseHeart 3.5s ease-in-out infinite;
   }
+
+  /* Rose Day Visuals */
+  @keyframes roseGlow {
+    0%, 100% { opacity: 0.4; filter: blur(20px); transform: scale(1); }
+    50% { opacity: 0.7; filter: blur(35px); transform: scale(1.1); }
+  }
+
+  @keyframes petalFall {
+    0% { transform: translate(0, -10%) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translate(15vw, 110vh) rotate(360deg); opacity: 0; }
+  }
+
+  @keyframes floatingQuote {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    33% { transform: translateY(-10px) translateX(5px); }
+    66% { transform: translateY(5px) translateX(-5px); }
+  }
+
+  .rose-day-bg {
+    background: radial-gradient(circle at 50% 50%, #fff5f5 0%, #ffe3e3 100%);
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .rose-petal {
+    position: absolute;
+    background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+    border-radius: 100% 0 100% 100%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .floating-quote-wrapper {
+    animation: floatingQuote 20s ease-in-out infinite;
+  }
 }

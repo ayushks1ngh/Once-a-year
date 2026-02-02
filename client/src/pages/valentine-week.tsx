@@ -422,6 +422,41 @@ function useThemeVars(theme: DayTheme | undefined) {
   }, [theme]);
 }
 
+function RoseDayVisuals() {
+  const petals = useMemo(() => {
+    return Array.from({ length: 15 }).map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 20}s`,
+      duration: `${15 + Math.random() * 15}s`,
+      size: `${15 + Math.random() * 25}px`,
+      rotation: `${Math.random() * 360}deg`,
+    }));
+  }, []);
+
+  return (
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+      <div className="absolute inset-0 bg-[#fff0f3] opacity-60" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#ffc1cc] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-[roseGlow_12s_infinite]" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#f8bbd0] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-[roseGlow_15s_infinite_reverse]" />
+      {petals.map((p) => (
+        <div
+          key={p.id}
+          className="rose-petal animate-[petalFall_linear_infinite]"
+          style={{
+            left: p.left,
+            width: p.size,
+            height: p.size,
+            animationDelay: p.delay,
+            animationDuration: p.duration,
+            transform: `rotate(${p.rotation})`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function ValentineWeekPage() {
   const unlocked = useMemo(() => getUnlockedCount(new Date()), []);
   const [activeDay, setActiveDay] = useState<number | null>(null);
@@ -439,7 +474,7 @@ export default function ValentineWeekPage() {
 
   return (
     <div className="relative min-h-[100svh]">
-      <div className="bg-dream noise" />
+      {day?.index === 1 ? <RoseDayVisuals /> : <div className="bg-dream noise" />}
       <FloatingThings mode={day?.theme.floatMode || "petals"} />
 
       <div className="mx-auto flex min-h-[100svh] max-w-5xl flex-col items-center justify-center px-4 py-10">
@@ -575,12 +610,15 @@ export default function ValentineWeekPage() {
                       Feb {day!.date.day}
                     </div>
 
-                    <div className="mt-8 space-y-4">
+                    <div className="mt-8 space-y-4 floating-quote-wrapper">
                       {randomMessage?.map((line, i) => (
                         <p
                           key={i}
                           data-testid={`text-day-line-${day!.index}-${i}`}
-                          className="text-lg leading-relaxed text-foreground/75"
+                          className={cn(
+                            "text-lg leading-relaxed transition-all duration-1000",
+                            day!.index === 1 ? "text-[#5d4037] opacity-60 font-serif italic" : "text-foreground/75"
+                          )}
                         >
                           {line}
                         </p>
