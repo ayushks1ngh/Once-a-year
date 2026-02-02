@@ -194,6 +194,7 @@ function getUnlockedCount(today = new Date()) {
 }
 
 function DayVisual({ kind }: { kind: Day["visual"]["kind"] }) {
+  if (!kind) return null;
   switch (kind) {
     case "rose":
       return (
@@ -280,6 +281,8 @@ function FloatingThings({ mode }: { mode: "hearts" | "petals" }) {
     });
   }, []);
 
+  if (!mode) return null;
+
   return (
     <div className="float-layer" aria-hidden>
       {items.map((it) => (
@@ -302,8 +305,9 @@ function FloatingThings({ mode }: { mode: "hearts" | "petals" }) {
   );
 }
 
-function useThemeVars(theme: DayTheme) {
+function useThemeVars(theme: DayTheme | undefined) {
   useEffect(() => {
+    if (!theme) return;
     const r = document.documentElement;
     r.style.setProperty("--tint-1", theme.tint1);
     r.style.setProperty("--tint-2", theme.tint2);
