@@ -321,8 +321,8 @@ function useThemeVars(theme: DayTheme) {
 }
 
 export default function ValentineWeekPage() {
-  const [activeDay, setActiveDay] = useState<number | null>(null);
   const unlocked = useMemo(() => getUnlockedCount(new Date()), []);
+  const [activeDay, setActiveDay] = useState<number | null>(null);
 
   const day = activeDay ? DAYS[activeDay - 1] : null;
 
