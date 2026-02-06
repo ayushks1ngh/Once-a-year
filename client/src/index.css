@@ -300,4 +300,262 @@
   .floating-quote-wrapper {
     animation: floatingQuote 20s ease-in-out infinite;
   }
+
+  /* Rose Day Dark Theme */
+  @keyframes fogDrift {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.15;
+    }
+    50% {
+      transform: translate(-15px, 10px) scale(1.05);
+      opacity: 0.25;
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.15;
+    }
+  }
+
+  @keyframes fogDriftSlow {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.08;
+    }
+    50% {
+      transform: translate(20px, -15px) scale(1.08);
+      opacity: 0.15;
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.08;
+    }
+  }
+
+  .rose-day-dark {
+    background: #0b0b0f !important;
+  }
+
+  .rose-day-card-dark {
+    background: linear-gradient(145deg, #1a1a24, #2c1f32) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(236, 72, 153, 0.06);
+  }
+
+  .rose-day-card-dark::after {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(255, 255, 255, 0)) !important;
+    opacity: 0.6 !important;
+  }
+
+  .rose-day-text-primary {
+    color: #f4f4f6 !important;
+  }
+
+  .rose-day-text-secondary {
+    color: rgba(255, 255, 255, 0.65) !important;
+  }
+
+  .rose-day-text-muted {
+    color: rgba(255, 255, 255, 0.45) !important;
+  }
+
+  /* Rose Glow (deprecated, kept for compatibility) */
+  .rose-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .rose-glow::before {
+    content: "";
+    position: absolute;
+    inset: -30%;
+    background: radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.2) 0%, transparent 70%);
+    filter: blur(40px);
+    animation: fogDrift 8s ease-in-out infinite;
+  }
+
+  .rose-glow::after {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background: radial-gradient(ellipse 600px 400px at 50% 40%, rgba(236, 72, 153, 0.08) 0%, transparent 65%);
+    filter: blur(60px);
+    animation: fogDrift 12s ease-in-out infinite reverse;
+  }
+
+  /* Rose Hero - Cinematic Layered Section */
+  .rose-hero-container {
+    position: relative;
+    background: linear-gradient(145deg, #1a1a24, #2c1f32);
+    border-radius: 2rem;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  /* Layer A: Radial Pink Glow */
+  .rose-glow-layer {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle 350px at 50% 60%,
+      rgba(236, 72, 153, 0.3) 0%,
+      rgba(236, 72, 153, 0.15) 30%,
+      transparent 70%
+    );
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Layer B: Fog Layers */
+  .rose-fog-layer {
+    position: absolute;
+    inset: -10%;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .rose-fog-inner {
+    background: radial-gradient(
+      ellipse 500px 400px at 50% 45%,
+      rgba(236, 72, 153, 0.12) 0%,
+      rgba(200, 100, 150, 0.05) 40%,
+      transparent 70%
+    );
+    filter: blur(50px);
+    animation: fogDriftSlow 25s ease-in-out infinite;
+  }
+
+  .rose-fog-outer {
+    background: radial-gradient(
+      ellipse 600px 350px at 50% 55%,
+      rgba(220, 80, 140, 0.08) 0%,
+      transparent 60%
+    );
+    filter: blur(80px);
+    animation: fogDriftSlow 35s ease-in-out infinite reverse;
+  }
+
+  /* Layer C: Rose Visual */
+  .rose-visual-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 2rem;
+    z-index: 3;
+    pointer-events: auto;
+  }
+
+  /* Layer D: Bloom Overlay */
+  .rose-bloom-layer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 50%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  /* Global Dark Theme - Premium */
+  .dark-bg-premium {
+    background: radial-gradient(
+      circle at 30% 20%,
+      #2a1f32,
+      #0f0f16 70%
+    );
+  }
+
+  .dark-container {
+    background: rgba(25, 25, 35, 0.8);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  }
+
+  .dark-container-hover {
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .dark-container-hover:hover {
+    background: rgba(35, 35, 50, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7),
+                0 0 40px rgba(236, 72, 153, 0.1);
+    border-color: rgba(236, 72, 153, 0.15);
+  }
+
+  /* Dark Theme Text Colors */
+  .text-dark-primary {
+    color: #f4f4f6;
+  }
+
+  .text-dark-secondary {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .text-dark-muted {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  /* Day Cards - Dark Theme */
+  .day-card-dark {
+    background: rgba(30, 25, 40, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .day-card-dark:hover {
+    background: rgba(45, 35, 55, 0.85);
+    transform: translateY(-4px) scale(1.02);
+    border-color: rgba(236, 72, 153, 0.2);
+    box-shadow:
+      0 12px 48px rgba(0, 0, 0, 0.5),
+      0 0 30px rgba(236, 72, 153, 0.15);
+  }
+
+  .day-card-dark:active {
+    transform: translateY(-2px) scale(1.01);
+  }
+
+  /* Header Badge Dark */
+  .badge-chip-dark {
+    background: rgba(236, 72, 153, 0.1);
+    border: 1px solid rgba(236, 72, 153, 0.2);
+  }
+
+  /* Footer Dark */
+  .footer-dark {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  /* Back Button Dark */
+  .back-button-dark {
+    color: rgba(255, 255, 255, 0.5);
+    transition: color 0.3s ease;
+  }
+
+  .back-button-dark:hover {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  /* Final Note Card Dark (Day 7) */
+  .final-note-dark {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(200, 100, 150, 0.05));
+    border: 1px solid rgba(236, 72, 153, 0.15);
+  }
 }

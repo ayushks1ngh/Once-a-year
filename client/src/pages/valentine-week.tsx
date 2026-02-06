@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lock, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import EnhancedRose from "@/components/EnhancedRose";
+import RoseDayHero from "@/components/RoseDayHero";
 
 type DayTheme = {
   tint1: string;
@@ -302,14 +304,8 @@ function DayVisual({ kind }: { kind: Day["visual"]["kind"] }) {
   switch (kind) {
     case "rose":
       return (
-        <div
-          data-testid="visual-rose"
-          className="relative mx-auto mt-5 h-24 w-24"
-        >
-          <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.85),rgba(255,255,255,0)_45%),linear-gradient(135deg,hsl(332_92%_62%),hsl(18_92%_70%))] blur-[0.2px]" />
-          <div className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.9),rgba(255,255,255,0)_45%),linear-gradient(135deg,hsl(332_95%_70%),hsl(280_90%_72%))]" />
-          <div className="absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.92),rgba(255,255,255,0)_55%),linear-gradient(135deg,hsl(332_96%_78%),hsl(6_90%_78%))]" />
-          <div className="absolute -bottom-2 left-1/2 h-10 w-1 -translate-x-1/2 rounded-full bg-[linear-gradient(180deg,hsl(145_70%_48%),hsl(145_70%_34%))] opacity-80" />
+        <div data-testid="visual-rose" className="relative mx-auto">
+          <EnhancedRose />
         </div>
       );
     case "ring":
@@ -479,7 +475,8 @@ export default function ValentineWeekPage() {
   const isBeforeWeek = unlocked === 0;
 
   return (
-    <div className="relative min-h-[100svh]">
+    <div className={cn("relative min-h-[100svh] dark-bg-premium", day?.index === 1 && "rose-day-dark")}>
+      {day?.index === 1 && <div className="rose-glow" />}
       {day?.index === 1 ? <RoseDayVisuals /> : <div className="bg-dream noise" />}
       <FloatingThings mode={day?.theme.floatMode || "petals"} />
 
@@ -488,7 +485,10 @@ export default function ValentineWeekPage() {
           <header className="mx-auto mb-5 flex max-w-2xl flex-col items-center text-center">
             <div
               data-testid="badge-private"
-              className="badge-chip inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-foreground/80"
+              className={cn(
+                "inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold",
+                day ? "badge-chip-dark text-dark-secondary" : "badge-chip text-foreground/80"
+              )}
             >
               <span className="inline-flex h-2 w-2 rounded-full bg-[hsl(var(--primary))]" />
               Private Valentine Week
@@ -496,16 +496,25 @@ export default function ValentineWeekPage() {
 
             <h1
               data-testid="text-title"
-              className="text-display mt-4 text-4xl leading-[0.95] tracking-tight text-foreground sm:text-5xl"
+              className={cn(
+                "text-display mt-4 text-4xl leading-[0.95] tracking-tight sm:text-5xl",
+                day ? "text-dark-primary" : "text-foreground"
+              )}
             >
-              Valentine Week
+              {day ? `Day ${day.index} — ${day.title} ${day.emoji}` : "Valentine Week"}
             </h1>
             <p
               data-testid="text-subtitle"
-              className="mt-2 max-w-xl text-sm leading-relaxed text-foreground/70"
+              className={cn(
+                "mt-2 max-w-xl text-sm leading-relaxed",
+                day ? "text-dark-secondary" : "text-foreground/70"
+              )}
             >
-              Each day unlocks on its date. Past days stay visible. Future days stay softly
-              locked.
+              {!day ? (
+                <>Each day unlocks on its date. Past days stay visible. Future days stay softly locked.</>
+              ) : (
+                <>Feb {day.date.day}</>
+              )}
             </p>
           </header>
 
@@ -516,18 +525,30 @@ export default function ValentineWeekPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="day-card glass soft-border relative overflow-hidden p-6 sm:p-8"
+                className={cn(
+                  "day-card relative overflow-hidden p-6 sm:p-8",
+                  day ? "dark-container" : "glass soft-border"
+                )}
               >
                 <div className="mb-6 flex items-center justify-between">
                   <div>
-                    <div data-testid="text-nav-title" className="text-xs font-semibold text-foreground/60">
+                    <div data-testid="text-nav-title" className={cn(
+                      "text-xs font-semibold",
+                      day ? "text-dark-muted" : "text-foreground/60"
+                    )}>
                       Collection
                     </div>
-                    <div data-testid="text-nav-sub" className="text-xl font-semibold text-foreground/80">
+                    <div data-testid="text-nav-sub" className={cn(
+                      "text-xl font-semibold",
+                      day ? "text-dark-primary" : "text-foreground/80"
+                    )}>
                       Tap a day to reveal its story
                     </div>
                   </div>
-                  <div data-testid="text-unlocked" className="text-xs font-semibold text-foreground/60">
+                  <div data-testid="text-unlocked" className={cn(
+                    "text-xs font-semibold",
+                    day ? "text-dark-muted" : "text-foreground/60"
+                  )}>
                     Progress: {unlocked}/7
                   </div>
                 </div>
@@ -546,8 +567,8 @@ export default function ValentineWeekPage() {
                           setActiveDay(d.index);
                         }}
                         className={cn(
-                          "day-card relative aspect-square overflow-hidden rounded-3xl p-5 text-left transition",
-                          "soft-border bg-white/50 hover:bg-white/70 active:scale-[0.98]",
+                          "day-card relative aspect-square overflow-hidden rounded-3xl p-5 text-left",
+                          day ? "day-card-dark" : "soft-border bg-white/50 hover:bg-white/70 active:scale-[0.98] transition",
                           !isUnlocked && "cursor-not-allowed",
                         )}
                         aria-disabled={!isUnlocked}
@@ -556,16 +577,25 @@ export default function ValentineWeekPage() {
                           data-testid={`card-day-${d.index}`}
                         >
                           <div className="flex items-center justify-between">
-                            <div className="text-xs font-semibold text-foreground/70">
+                            <div className={cn(
+                              "text-xs font-semibold",
+                              day ? "text-dark-muted" : "text-foreground/70"
+                            )}>
                               Day {d.index}
                             </div>
                             <div className="text-xl">{d.emoji}</div>
                           </div>
                           <div>
-                            <div className="text-base font-semibold text-foreground/85">
+                            <div className={cn(
+                              "text-base font-semibold",
+                              day ? "text-dark-primary" : "text-foreground/85"
+                            )}>
                               {d.title}
                             </div>
-                            <div className="text-[11px] font-semibold text-foreground/60">Feb {d.date.day}</div>
+                            <div className={cn(
+                              "text-[11px] font-semibold",
+                              day ? "text-dark-muted" : "text-foreground/60"
+                            )}>Feb {d.date.day}</div>
                           </div>
                         </div>
 
@@ -590,11 +620,17 @@ export default function ValentineWeekPage() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="day-card glass glow soft-border relative overflow-hidden p-6 sm:p-10"
+                className={cn(
+                  "day-card relative overflow-hidden p-6 sm:p-10",
+                  day!.index === 1 ? "rose-day-card-dark" : "dark-container"
+                )}
               >
                 <button
                   onClick={() => setActiveDay(null)}
-                  className="mb-6 flex items-center gap-2 text-sm font-semibold text-foreground/60 transition hover:text-foreground"
+                  className={cn(
+                    "mb-6 flex items-center gap-2 text-sm font-semibold transition",
+                    day!.index === 1 ? "rose-day-text-secondary hover:rose-day-text-primary" : "back-button-dark"
+                  )}
                 >
                   ← Back to collection
                 </button>
@@ -604,14 +640,20 @@ export default function ValentineWeekPage() {
                     <div className="flex items-center gap-3">
                       <div
                         data-testid={`text-day-title-${day!.index}`}
-                        className="text-display text-4xl tracking-tight"
+                        className={cn(
+                          "text-display text-4xl tracking-tight",
+                          day!.index === 1 ? "rose-day-text-primary" : "text-dark-primary"
+                        )}
                       >
                         Day {day!.index} — {day!.title} {day!.emoji}
                       </div>
                     </div>
                     <div
                       data-testid={`text-day-date-${day!.index}`}
-                      className="mt-1 text-xs font-semibold text-foreground/60"
+                      className={cn(
+                        "mt-1 text-xs font-semibold",
+                        day!.index === 1 ? "rose-day-text-muted" : "text-dark-muted"
+                      )}
                     >
                       Feb {day!.date.day}
                     </div>
@@ -623,7 +665,7 @@ export default function ValentineWeekPage() {
                           data-testid={`text-day-line-${day!.index}-${i}`}
                           className={cn(
                             "text-lg leading-relaxed transition-all duration-1000",
-                            day!.index === 1 ? "text-[#5d4037] opacity-60 font-serif italic" : "text-foreground/75"
+                            day!.index === 1 ? "rose-day-text-secondary font-serif italic" : "text-dark-secondary"
                           )}
                         >
                           {line}
@@ -632,8 +674,14 @@ export default function ValentineWeekPage() {
                     </div>
                   </div>
 
-                  <div className="flex-shrink-0">
-                    <DayVisual kind={day!.visual.kind} />
+                  <div className={cn(
+                    day!.index === 1 ? "w-full md:w-[500px]" : "flex-shrink-0"
+                  )}>
+                    {day!.index === 1 ? (
+                      <RoseDayHero />
+                    ) : (
+                      <DayVisual kind={day!.visual.kind} />
+                    )}
                   </div>
                 </div>
 
@@ -642,13 +690,22 @@ export default function ValentineWeekPage() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="mt-10 rounded-3xl bg-white/55 p-6 soft-border"
+                    className={cn(
+                      "mt-10 rounded-3xl p-6",
+                      day ? "final-note-dark" : "bg-white/55 soft-border"
+                    )}
                     data-testid="card-final"
                   >
-                    <div className="text-sm font-semibold text-foreground/70 uppercase tracking-wider">A final note</div>
-                    <div className="mt-3 text-base leading-relaxed text-foreground/75">
-                      If this made you feel even a little cared for, I’m happy. And if not,
-                      that’s okay too. I just wanted to show up with something gentle.
+                    <div className={cn(
+                      "text-sm font-semibold uppercase tracking-wider",
+                      day ? "text-dark-secondary" : "text-foreground/70"
+                    )}>A final note</div>
+                    <div className={cn(
+                      "mt-3 text-base leading-relaxed",
+                      day ? "text-dark-secondary" : "text-foreground/75"
+                    )}>
+                      If this made you feel even a little cared for, I'm happy. And if not,
+                      that's okay too. I just wanted to show up with something gentle.
                     </div>
                   </motion.div>
                 )}
@@ -658,7 +715,10 @@ export default function ValentineWeekPage() {
 
           <div
             data-testid="text-footer"
-            className="mt-8 text-center text-xs leading-relaxed text-foreground/50"
+            className={cn(
+              "mt-8 text-center text-xs leading-relaxed",
+              day ? "footer-dark" : "text-foreground/50"
+            )}
           >
             Past days stay visible. Future days stay softly locked.
           </div>
