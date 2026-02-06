@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import ValentineWeekPage from "@/pages/valentine-week";
+import AccessGate from "@/components/AccessGate";
+import { hasAccess } from "@/lib/dateAccess";
 
 function Router() {
   return (
@@ -16,11 +18,15 @@ function Router() {
 }
 
 function App() {
+  // Check if user has access based on date or admin override
+  const userHasAccess = hasAccess();
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <Router />
+        {/* Show access gate if outside Valentine Week and no admin override */}
+        {!userHasAccess ? <AccessGate /> : <Router />}
       </TooltipProvider>
     </QueryClientProvider>
   );
