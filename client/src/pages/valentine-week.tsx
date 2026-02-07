@@ -475,7 +475,7 @@ export default function ValentineWeekPage() {
   const isBeforeWeek = unlocked === 0;
 
   return (
-    <div className={cn("relative min-h-[100svh] dark-bg-premium", day?.index === 1 && "rose-day-dark")}>
+    <div className="relative min-h-[100svh]">
       {day?.index === 1 && <div className="rose-glow" />}
       {day?.index === 1 ? <RoseDayVisuals /> : <div className="bg-dream noise" />}
       <FloatingThings mode={day?.theme.floatMode || "petals"} />
@@ -487,7 +487,7 @@ export default function ValentineWeekPage() {
               data-testid="badge-private"
               className={cn(
                 "inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold",
-                day ? "badge-chip-dark text-dark-secondary" : "badge-chip text-foreground/80"
+                day ? "badge-chip text-foreground/80" : "badge-chip text-foreground/80"
               )}
             >
               <span className="inline-flex h-2 w-2 rounded-full bg-[hsl(var(--primary))]" />
@@ -498,7 +498,7 @@ export default function ValentineWeekPage() {
               data-testid="text-title"
               className={cn(
                 "text-display mt-4 text-4xl leading-[0.95] tracking-tight sm:text-5xl",
-                day ? "text-dark-primary" : "text-foreground"
+                day ? "text-foreground" : "text-foreground"
               )}
             >
               {day ? `Day ${day.index} — ${day.title} ${day.emoji}` : "Valentine Week"}
@@ -507,7 +507,7 @@ export default function ValentineWeekPage() {
               data-testid="text-subtitle"
               className={cn(
                 "mt-2 max-w-xl text-sm leading-relaxed",
-                day ? "text-dark-secondary" : "text-foreground/70"
+                day ? "text-foreground/70" : "text-foreground/70"
               )}
             >
               {!day ? (
@@ -527,27 +527,27 @@ export default function ValentineWeekPage() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 className={cn(
                   "day-card relative overflow-hidden p-6 sm:p-8",
-                  day ? "dark-container" : "glass soft-border"
+                  day ? "glass soft-border" : "glass soft-border"
                 )}
               >
                 <div className="mb-6 flex items-center justify-between">
                   <div>
                     <div data-testid="text-nav-title" className={cn(
                       "text-xs font-semibold",
-                      day ? "text-dark-muted" : "text-foreground/60"
+                      day ? "text-foreground/60" : "text-foreground/60"
                     )}>
                       Collection
                     </div>
                     <div data-testid="text-nav-sub" className={cn(
                       "text-xl font-semibold",
-                      day ? "text-dark-primary" : "text-foreground/80"
+                      day ? "text-foreground/80" : "text-foreground/80"
                     )}>
                       Tap a day to reveal its story
                     </div>
                   </div>
                   <div data-testid="text-unlocked" className={cn(
                     "text-xs font-semibold",
-                    day ? "text-dark-muted" : "text-foreground/60"
+                    day ? "text-foreground/60" : "text-foreground/60"
                   )}>
                     Progress: {unlocked}/7
                   </div>
@@ -568,7 +568,7 @@ export default function ValentineWeekPage() {
                         }}
                         className={cn(
                           "day-card relative aspect-square overflow-hidden rounded-3xl p-5 text-left",
-                          day ? "day-card-dark" : "soft-border bg-white/50 hover:bg-white/70 active:scale-[0.98] transition",
+                          day ? "soft-border bg-white/50 hover:bg-white/70 active:scale-[0.98] transition" : "soft-border bg-white/50 hover:bg-white/70 active:scale-[0.98] transition",
                           !isUnlocked && "cursor-not-allowed",
                         )}
                         aria-disabled={!isUnlocked}
@@ -579,7 +579,7 @@ export default function ValentineWeekPage() {
                           <div className="flex items-center justify-between">
                             <div className={cn(
                               "text-xs font-semibold",
-                              day ? "text-dark-muted" : "text-foreground/70"
+                              day ? "text-foreground/70" : "text-foreground/70"
                             )}>
                               Day {d.index}
                             </div>
@@ -588,13 +588,13 @@ export default function ValentineWeekPage() {
                           <div>
                             <div className={cn(
                               "text-base font-semibold",
-                              day ? "text-dark-primary" : "text-foreground/85"
+                              day ? "text-foreground/85" : "text-foreground/85"
                             )}>
                               {d.title}
                             </div>
                             <div className={cn(
                               "text-[11px] font-semibold",
-                              day ? "text-dark-muted" : "text-foreground/60"
+                              day ? "text-foreground/60" : "text-foreground/60"
                             )}>Feb {d.date.day}</div>
                           </div>
                         </div>
@@ -622,14 +622,14 @@ export default function ValentineWeekPage() {
                 exit={{ opacity: 0, x: -20 }}
                 className={cn(
                   "day-card relative overflow-hidden p-6 sm:p-10",
-                  day!.index === 1 ? "rose-day-card-dark" : "dark-container"
+                  day!.index === 1 ? "glass soft-border" : "glass soft-border"
                 )}
               >
                 <button
                   onClick={() => setActiveDay(null)}
                   className={cn(
                     "mb-6 flex items-center gap-2 text-sm font-semibold transition",
-                    day!.index === 1 ? "rose-day-text-secondary hover:rose-day-text-primary" : "back-button-dark"
+                    day!.index === 1 ? "text-foreground/70 hover:text-foreground" : "text-foreground/70 hover:text-foreground"
                   )}
                 >
                   ← Back to collection
@@ -642,7 +642,7 @@ export default function ValentineWeekPage() {
                         data-testid={`text-day-title-${day!.index}`}
                         className={cn(
                           "text-display text-4xl tracking-tight",
-                          day!.index === 1 ? "rose-day-text-primary" : "text-dark-primary"
+                          day!.index === 1 ? "text-foreground" : "text-foreground"
                         )}
                       >
                         Day {day!.index} — {day!.title} {day!.emoji}
@@ -652,7 +652,7 @@ export default function ValentineWeekPage() {
                       data-testid={`text-day-date-${day!.index}`}
                       className={cn(
                         "mt-1 text-xs font-semibold",
-                        day!.index === 1 ? "rose-day-text-muted" : "text-dark-muted"
+                        day!.index === 1 ? "text-foreground/60" : "text-foreground/60"
                       )}
                     >
                       Feb {day!.date.day}
@@ -665,7 +665,7 @@ export default function ValentineWeekPage() {
                           data-testid={`text-day-line-${day!.index}-${i}`}
                           className={cn(
                             "text-lg leading-relaxed transition-all duration-1000",
-                            day!.index === 1 ? "rose-day-text-secondary font-serif italic" : "text-dark-secondary"
+                            day!.index === 1 ? "text-foreground/75 font-serif italic" : "text-foreground/75"
                           )}
                         >
                           {line}
@@ -692,17 +692,17 @@ export default function ValentineWeekPage() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className={cn(
                       "mt-10 rounded-3xl p-6",
-                      day ? "final-note-dark" : "bg-white/55 soft-border"
+                      day ? "bg-white/55 soft-border" : "bg-white/55 soft-border"
                     )}
                     data-testid="card-final"
                   >
                     <div className={cn(
                       "text-sm font-semibold uppercase tracking-wider",
-                      day ? "text-dark-secondary" : "text-foreground/70"
+                      day ? "text-foreground/70" : "text-foreground/70"
                     )}>A final note</div>
                     <div className={cn(
                       "mt-3 text-base leading-relaxed",
-                      day ? "text-dark-secondary" : "text-foreground/75"
+                      day ? "text-foreground/75" : "text-foreground/75"
                     )}>
                       If this made you feel even a little cared for, I'm happy. And if not,
                       that's okay too. I just wanted to show up with something gentle.
@@ -717,7 +717,7 @@ export default function ValentineWeekPage() {
             data-testid="text-footer"
             className={cn(
               "mt-8 text-center text-xs leading-relaxed",
-              day ? "footer-dark" : "text-foreground/50"
+              day ? "text-foreground/50" : "text-foreground/50"
             )}
           >
             Past days stay visible. Future days stay softly locked.
