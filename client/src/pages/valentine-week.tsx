@@ -4,6 +4,7 @@ import { Lock, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import EnhancedRose from "@/components/EnhancedRose";
 import RoseDayHero from "@/components/RoseDayHero";
+import ProposeDayHero from "@/components/ProposeDayHero";
 
 type DayTheme = {
   tint1: string;
@@ -675,10 +676,14 @@ export default function ValentineWeekPage() {
                   </div>
 
                   <div className={cn(
-                    day!.index === 1 ? "w-full md:w-[500px]" : "flex-shrink-0"
-                  )}>
+                    "relative overflow-hidden",
+                    day!.index === 1 ? "w-full md:w-[500px]" : "flex-shrink-0 w-full md:w-[450px]"
+                  )}
+                  style={{ minHeight: "420px" }}>
                     {day!.index === 1 ? (
                       <RoseDayHero />
+                    ) : day!.index === 2 ? (
+                      <ProposeDayHero />
                     ) : (
                       <DayVisual kind={day!.visual.kind} />
                     )}
